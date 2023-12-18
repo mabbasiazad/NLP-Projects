@@ -92,7 +92,7 @@ def collate_batch(batch):
                    for item in text_list] 
     text_list = torch.cat([item[None] for item in text_padded])
 
-    return text_list.to(device), label_list.to(device)
+    return label_list.to(device), text_list.to(device) 
     
 batch = [sampledata_0, sampledata_1]
 collate_batch(batch)

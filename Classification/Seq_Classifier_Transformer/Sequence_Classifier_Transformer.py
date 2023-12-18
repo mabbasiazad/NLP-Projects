@@ -59,32 +59,38 @@ VOCAB_SIZE = len(vocab)
 Data Batching
 =============================================================
 """
-def collate_batch(batch):  # sourcery skip: comprehension-to-generator
+def collate_batch(batch):
     label_list, text_list = [], []
 
     for (_label, _text) in batch:
-        text_coded = torch.tensor(text_pipeline(_text), dtype=torch.int64)
-        text_list.append(text_coded)
-        label_list.append(_label)
+        label_list.append(label_pipeline(_label))
+        processed_text = torch.tensor(
+            text_pipeline(_text), dtype=torch.int64)
+        text_list.append(processed_text)
 
-    label_list = torch.tensor(label_list)
-    max_seqlength = max([item.size(0) for item in text_list])
+    label_list = torch.tensor(label_list, dtype=torch.int64)
 
-    text_padded = [torch.cat(item, torch.tensor(vocab["<pad>"]).expand(max_seqlength- len(item)))
-                   for item in text_list] 
-    text_list = torch.cat([item[None] for item in text_padded])
+    padded_value = vocab["<pad>"]
+    max_size = max([item.size(0) for item in text_list])
 
-    return text_list.to(device), label_list.to(device)
+    padded = [
+        torch.cat(
+            [item, torch.tensor([padded_value]).expand(max_size - len(item))])
+        for item in text_list
+    ]
+
+    text_list = torch.cat([item[None] for item in padded])
+
+    return label_list.to(device), text_list.to(device)
 
 
 train_loader = DataLoader(
     list(train_iter), batch_size=BATCH_SIZE, shuffle=True, collate_fn=collate_batch
-    )
+)
 
 test_loader = DataLoader(
     list(test_iter), batch_size=BATCH_SIZE, shuffle=True, collate_fn=collate_batch
-    )
-
+)
 #====================================================================================
 
 class CTransformer(nn.Module): 
@@ -151,7 +157,29 @@ if __name__ == "__main__":
     
     loss_fn = nn.CrossEntropyLoss()
     optim = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE)
+    sch = torch.optim.lr_scheduler.LambdaLR(optim, lambda i: min(i / (LR_WARMUP / BATCH_SIZE), 1.0))
     
     NUM_EPOCHS = 1 # to test the training loop 
+    for epoch in range(NUM_EPOCHS):
+        for batch_idx, (label, text) in enumerate(train_loader):
+            x = text.to(device)
+            y = label.to(device)
+
+            prediction =  model(x)
+            loss = loss_fn(prediction, y)
+            
+            optim.zero_grad()
+            loss.backward()
+            torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+            optim.step()
+            sch.step() # change the learning rate 
+
+            if batch_idx % 400 == 0: 
+                print(f"Epoch [{epoch}/{NUM_EPOCHS}], Step [{batch_idx}/{len(train_loader)}], lr: {optim.param_groups[0]['lr']:.5f}, loss: {loss.item():.4f}")
+        
+
+            
+
+            
 
     
