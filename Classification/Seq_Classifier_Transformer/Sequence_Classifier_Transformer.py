@@ -159,24 +159,34 @@ if __name__ == "__main__":
     optim = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE)
     sch = torch.optim.lr_scheduler.LambdaLR(optim, lambda i: min(i / (LR_WARMUP / BATCH_SIZE), 1.0))
     
-    NUM_EPOCHS = 1 # to test the training loop 
-    for epoch in range(NUM_EPOCHS):
-        for batch_idx, (label, text) in enumerate(train_loader):
-            x = text.to(device)
-            y = label.to(device)
+    # NUM_EPOCHS = 1 # to test the training loop 
+    # for epoch in range(NUM_EPOCHS):
+    #     for batch_idx, (label, text) in enumerate(train_loader):
+    #         x = text.to(device)
+    #         y = label.to(device)
 
-            prediction =  model(x)
-            loss = loss_fn(prediction, y)
+    #         prediction =  model(x)
+    #         loss = loss_fn(prediction, y)
             
-            optim.zero_grad()
-            loss.backward()
-            torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
-            optim.step()
-            sch.step() # change the learning rate 
+    #         optim.zero_grad()
+    #         loss.backward()
+    #         torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+    #         optim.step()
+    #         sch.step() # change the learning rate 
 
-            if batch_idx % 400 == 0: 
-                print(f"Epoch [{epoch}/{NUM_EPOCHS}], Step [{batch_idx}/{len(train_loader)}], lr: {optim.param_groups[0]['lr']:.5f}, loss: {loss.item():.4f}")
+    #         if batch_idx % 400 == 0: 
+    #             print(f"Epoch [{epoch}/{NUM_EPOCHS}], Step [{batch_idx}/{len(train_loader)}], lr: {optim.param_groups[0]['lr']:.5f}, loss: {loss.item():.4f}")
         
+    with torch.no_grad():
+        for label, text in test_loader:
+            label = label.to(device)
+            label = [label_pipeline(item) for item in label]
+            print(label, len(label))
+            text =  text.to(device)
+            output = model(text)
+            prediction = torch.argmax(output, dim=1)
+            print(prediction, prediction.size())
+            break
 
             
 
