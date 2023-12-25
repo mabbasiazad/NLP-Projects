@@ -24,23 +24,22 @@ the first\\launch date for its manned rocket.")
 
 1. get all text in training set -> tokenize them -> form the vocab dic 
 
-=============================================================================
+```python
+tokenizer = get_tokenizer("basic_english")
 
-    tokenizer = get_tokenizer("basic_english")
+def yield_tokens(data_iter):
 
-    def yield_tokens(data_iter):
+    for _, text in data_iter:
 
-        for _, text in data_iter:
+        yield tokenizer(text)
 
-            yield tokenizer(text)
+vocab = build_vocab_from_iterator(yield_tokens(train_iter), specials=["<pad>"])
 
-    vocab = build_vocab_from_iterator(yield_tokens(train_iter), specials=["<pad>"])
+vocab.set_default_index(vocab["<pad>"])
 
-    vocab.set_default_index(vocab["<pad>"])
+print(vocab(['here', 'is', 'an', 'example']))
+```
 
-    print(vocab(['here', 'is', 'an', 'example']))
-
-=============================================================================
 
 
 2. forming the text and lebel pipeline
