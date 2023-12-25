@@ -1,3 +1,3 @@
-In this code I used the LeNet5 architecture for my classifier. 
+### Model Architecture
 
 ![LeNet5](../../assets/LeNet5.png)
