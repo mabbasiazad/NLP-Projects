@@ -1,5 +1,5 @@
 ### self attention 
-<img src="../assets/selfattentionblock.png"  width="800" height="600">
+<img src="../assets/selfattentionblock.png"  width="400" height="400">
 
 ### Masking the self attention 
 ![masking](../assets/masking_selfattention.png)
