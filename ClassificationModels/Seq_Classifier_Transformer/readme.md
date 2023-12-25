@@ -25,7 +25,7 @@ the first\\launch date for its manned rocket.")
 
 1. get all text in training set -> tokenize them -> form the vocab dic 
 
-============================================================================
+====================================================================================
 
     tokenizer = get_tokenizer("basic_english")
 
@@ -41,15 +41,23 @@ the first\\launch date for its manned rocket.")
 
     print(vocab(['here', 'is', 'an', 'example']))
 
-================================================================================
+=============================================================================
+
 
 2. forming the text and lebel pipeline
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     text_pipeline = lambda x: vocab(tokenizer(x))
 
     label_pipeline = lambda x: int(x) - 1
 
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
 3. Data batching: make all sequences the same length as max sequence length by padding
+
+=============================================================================
 
     def collate_batch(batch):
 
@@ -87,3 +95,5 @@ the first\\launch date for its manned rocket.")
         test_loader = DataLoader(
             list(test_iter), batch_size=BATCH_SIZE, shuffle=True, collate_fn=collate_batch
         )
+        
+======================================================================================
