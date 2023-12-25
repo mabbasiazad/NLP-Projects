@@ -2,7 +2,7 @@
 <img src="../assets/selfattentionblock.png"  width="600" height="400">
 
 ### Masking the self attention 
-![masking](../assets/masking_selfattention.png)
+<img src="../assets/masking_selfattention.png"  width="600" height="400">
 
 ### Transformer block
-![transformer](../assets/transformerblock.png)
+<img src="../assets/transformerblock.png"  width="600" height="400">
