@@ -25,6 +25,7 @@ the first\\launch date for its manned rocket.")
 
 1. get all text in training set -> tokenize them -> form the vocab dic 
 
+============================================================================
 
     tokenizer = get_tokenizer("basic_english")
 
@@ -40,7 +41,7 @@ the first\\launch date for its manned rocket.")
 
     print(vocab(['here', 'is', 'an', 'example']))
 
-
+================================================================================
 
 2. forming the text and lebel pipeline
 
