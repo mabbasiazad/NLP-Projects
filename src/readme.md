@@ -1,8 +1,8 @@
 ### self attention 
-<img src="../assets/selfattentionblock.png"  width="600" height="400">
+<img src="../assets/selfattentionblock.png"  width="600" height="300">
 
 ### Masking the self attention 
-<img src="../assets/masking_selfattention.png"  width="600" height="400">
+<img src="../assets/masking_selfattention.png"  width="600" height="300">
 
 ### Transformer block
 <img src="../assets/transformerblock.png"  width="600" height="300">
