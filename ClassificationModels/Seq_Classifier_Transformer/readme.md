@@ -6,7 +6,7 @@ AG News (AG's News Corpus) is a subdataset of AG's corpus of news articles const
 
 ### Model Architecture
 
-![classifier_transformer](../../assets/sequenceClassifier.png)
+![classifier_transformer](../../assets/sequenceClassifier.png = 30x40)
 
 ### Sample Data 
 
@@ -25,7 +25,7 @@ the first\\launch date for its manned rocket.")
 
 1. get all text in training set -> tokenize them -> form the vocab dic 
 
-===============================================================================
+=============================================================================
 
     tokenizer = get_tokenizer("basic_english")
 
@@ -86,7 +86,6 @@ the first\\launch date for its manned rocket.")
         text_list = torch.cat([item[None] for item in padded])
 
         return label_list.to(device), text_list.to(device)
-
 
         train_loader = DataLoader(
             list(train_iter), batch_size=BATCH_SIZE, shuffle=True, collate_fn=collate_batch
