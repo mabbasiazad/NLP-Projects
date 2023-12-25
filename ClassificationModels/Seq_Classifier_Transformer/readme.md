@@ -34,7 +34,6 @@ the first\\launch date for its manned rocket.")
 
             yield tokenizer(text)
 
-
     vocab = build_vocab_from_iterator(yield_tokens(train_iter), specials=["<pad>"])
 
     vocab.set_default_index(vocab["<pad>"])
@@ -66,7 +65,7 @@ the first\\launch date for its manned rocket.")
         label_list = torch.tensor(label_list, dtype=torch.int64)
 
         padded_value = vocab["<pad>"]
-        
+
         max_size = max([item.size(0) for item in text_list])
 
         padded = [
@@ -80,10 +79,10 @@ the first\\launch date for its manned rocket.")
         return label_list.to(device), text_list.to(device)
 
 
-    train_loader = DataLoader(
-        list(train_iter), batch_size=BATCH_SIZE, shuffle=True, collate_fn=collate_batch
-    )
+        train_loader = DataLoader(
+            list(train_iter), batch_size=BATCH_SIZE, shuffle=True, collate_fn=collate_batch
+        )
 
-    test_loader = DataLoader(
-        list(test_iter), batch_size=BATCH_SIZE, shuffle=True, collate_fn=collate_batch
-    )
+        test_loader = DataLoader(
+            list(test_iter), batch_size=BATCH_SIZE, shuffle=True, collate_fn=collate_batch
+        )
