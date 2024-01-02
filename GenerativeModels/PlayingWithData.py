@@ -1,9 +1,12 @@
 import torch
 import numpy as np 
 import gzip
+from torch.utils.data import DataLoader, Dataset
+
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 SEQ_LEN = 400
-BATCH_SIZE = 4
+BATCH_SIZE = 10
 
 
 '''
@@ -60,6 +63,36 @@ print(data_train)
 # print(data_train[0:15])
 # print(decode(data_train[0:1000]))
 
-print(sample_batch(data=data_train, seq_length=SEQ_LEN, batch_size=BATCH_SIZE))
+# print(sample_batch(data=data_train, seq_length=SEQ_LEN, batch_size=BATCH_SIZE))
 
+# read this file for data set creation
+#  https://github.com/lucidrains/reformer-pytorch/blob/master/examples/enwik8_simple/train.py
+def cycle(loader):
+    while True:
+        for data in loader:
+            yield data
 
+class TextSamplerDataset(Dataset):
+    def __init__(self, data, seq_len):
+        super().__init__()
+        self.data = data
+        self.seq_len = seq_len
+
+    def __getitem__(self, index):
+        rand_start = torch.randint(0, self.data.size(0) - self.seq_len - 1, (1,))
+        full_seq = self.data[rand_start: rand_start + self.seq_len + 1].long()
+        return full_seq.to(device)
+
+    def __len__(self):
+        return self.data.size(0) // self.seq_len
+
+train_dataset = TextSamplerDataset(data_train, SEQ_LEN)
+# generates len(data_train) / SEQ_LEN number of samples
+# for this case 95000000 / 400 = 237500 number of sequence
+
+print(len(data_train))
+print(len(train_dataset))
+
+train_loader  = cycle(DataLoader(train_dataset, batch_size = BATCH_SIZE))
+# print(len(train_loader))
+print(next(train_loader))

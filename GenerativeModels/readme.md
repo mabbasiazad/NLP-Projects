@@ -1,9 +1,16 @@
 ### Prerequisities 
+
+### Problem description
+We’ll train a character level transformer to predict the next character in a sequence.
+
 I used the enwiki8 dataset to train the network.   
 
+### Model Architecture
+<img src="../../assets/text_generation.png"  width="600" height="400">
+
+
 ### Data Pipeline
-1. I read the file in ASCII format so it assigns a number to each character.
-Therefore, this model does not need a tokenizer. 
+1. This model does not need a tokenizer. I read the file in ASCII format so it assigns a number to each character.
 
 ```python
     with gzip.open(path) if path.endswith('.gz') else open(path) as file:
@@ -11,9 +18,11 @@ Therefore, this model does not need a tokenizer.
         # X shape : (100_000_000,) list of integers between 0-255
         trX, vaX, teX = np.split(X, [n_train, n_train + n_valid])
 ```
-Train data: include 95e6 ASCII code
+Train data include 95e6 ASCII code
 
+```python
 tensor([ 60, 109, 101,  ...,  47,  47, 119], dtype=torch.uint8)
+```
 
 2. Data Batching:     
 

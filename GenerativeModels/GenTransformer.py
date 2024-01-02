@@ -1,7 +1,8 @@
 import torch
 from torch import nn
 import torch.nn.functional as F
-from src.Transformer import TransformerBlock
+import numpy as np 
+import gzip
 
 class GenTransformer(nn.Module): 
     def __init__(self, k=128, heads=8, depth=6, max_seq_length=100, vocab_size=256, num_chars=256):
@@ -46,7 +47,8 @@ class GenTransformer(nn.Module):
         x = self.toprobs(x)  #(b, t, n_char)
 
         return F.log_softmax(x, dim=2)
-    
+
+
 # if __name__ == "__main__":
 #     x = torch.randint(256, (2, 5))
 #     model = GenTransformer()
