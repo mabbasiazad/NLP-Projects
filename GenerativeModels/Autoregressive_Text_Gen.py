@@ -1,13 +1,13 @@
 import torch
 import src.Transformer
-import GenTransformer
+from GenTransformer import GenTransformer
 import numpy as np 
 import gzip
+import tqdm
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-VOCAB_SIZE = 256
-SEQ_LEN = 300
-BATCH_SIZE = 32
+SEQ_LEN = 500
+BATCH_SIZE = 4
 LEARNING_RATE = 0.0001
 LR_WARMUP = 5000
 
@@ -85,4 +85,38 @@ Machine learning modeling
 '''
 # !!! Training loop !!!
 # -- We don't loop over the data, instead we sample a batch of random subsequences each time.
+
+ISINSTANCE_SEEN = 0
+NUM_ITER = 1_000_000 #very large value so you can keep running until the output looks good."
+TEST_EVERY = 5
+
+model = GenTransformer(
+            k = 512, 
+            heads = 8, 
+            depth = 6, 
+            max_seq_length = SEQ_LEN, 
+            vocab_size = 256, 
+            num_chars = 256
+)
+
+model = model.to(device)
+
+loss_fn = torch.nn.NLLLoss()
+optim = torch.optim.Adam(lr=LEARNING_RATE, params=model.parameters())
+sch = torch.optim.lr_scheduler.LambdaLR(optim, lambda i: min(i / (LR_WARMUP / BATCH_SIZE), 1.0))
+
+
+for i in tqdm.trange(NUM_ITER):
+    inputs, targets = sample_batch(data=data_train, seq_length=SEQ_LEN, batch_size=BATCH_SIZE)
+    # print("input size: ", inputs.size()) # (b, t=Seq_Len)
+    # print("target size: ", targets.size()) # (b, t)    
+    outputs = model(inputs)
+    # print("outputs size: ", outputs.size()) #(b, t, chars=256)
+    loss = loss_fn(outputs.transpose(1, 2), targets)
+    # print(loss)
+    optim.zero_grad()
+    loss.backward()
+    optim.step()
+    sch.step()
+    break
 
