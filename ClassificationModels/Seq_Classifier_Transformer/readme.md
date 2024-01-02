@@ -1,3 +1,10 @@
+### Prerequisities 
+You have to install the following package to get the data AG_NEWS()
+```python
+!pip install -U portalocker>=2.0.0
+```
+
+
 ### Problem Description
 
 This code is about AG News classificaton problem. 
@@ -22,7 +29,7 @@ the first\\launch date for its manned rocket.")
 
 ### Data pipeline
 
-1. get all text in training set -> tokenize them -> form the vocab dic 
+1. get all text in training set -> tokenize them -> form the vocab dic -> assign integers to tokens
 
 ```python
 tokenizer = get_tokenizer("basic_english")
