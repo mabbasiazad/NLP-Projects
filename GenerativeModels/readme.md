@@ -6,7 +6,7 @@ We’ll train a character level transformer to predict the next character in a s
 I used the enwiki8 dataset to train the network.   
 
 ### Model Architecture
-<img src="../../assets/text_generation.png"  width="600" height="400">
+<img src="../assets/text_generation.png"  width="600" height="400">
 
 
 ### Data Pipeline
