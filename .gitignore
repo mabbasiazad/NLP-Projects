@@ -1,2 +1,4 @@
 src.egg-info/*
 data/*
+src/_pycache_
+*/_pycache_
