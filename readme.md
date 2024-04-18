@@ -1,3 +1,11 @@
+#### how to run the package
+
+install the package first. make sure the current directory is where the setup.py file exists.
+
+```python
+pip install -e . 
+```
+
 In this project template codes for Classification and Generative models are implemented. 
 
 `ClassificationModels` cover the following problems:
