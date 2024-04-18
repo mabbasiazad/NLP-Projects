@@ -15,8 +15,8 @@ In this project template codes for Classification and Generative models are impl
 
 `GenerativeModels` cover:
 
-    - Autoregressive model for text generation
-    - GAN
-    - VAE
-    - Diffusion Models
+    - Autoregressive model for text generation (done)
+    - GAN (in progress)
+    - VAE (in progress)
+    - Diffusion Models (in progress)
 
