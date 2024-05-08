@@ -21,7 +21,7 @@ In this project template codes for Classification and Generative models are impl
 
 
 ### Model High-level Architecture
-<img src="./assets/encoderdecoder.png"  width="600" height="300">Here is the 
+<img src="./assets/encoderdecoder.png"  width="200" height="300">Here is the 
 
 Encoder (left): The encoder receives an input and builds a representation of it (its features). This means that the model is optimized to acquire understanding from the input. Then we can take this representation and use it for the classification tasks such as sentiment analysis as I did in `ClassificationModels` directory. 
 
