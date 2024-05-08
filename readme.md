@@ -21,13 +21,13 @@ In this project template codes for Classification and Generative models are impl
 
 
 ### Model High-level Architecture
-<img src="./assets/encoderdecoder.png"  width="200" height="300">Here is the 
+<img src="./assets/encoderdecoder.png"  width="200" height="300"> 
 
 Encoder (left): The encoder receives an input and builds a representation of it (its features). This means that the model is optimized to acquire understanding from the input. Then we can take this representation and use it for the classification tasks such as sentiment analysis as I did in `ClassificationModels` directory. 
 
 Decoder (right): The decoder uses the encoder’s representation (features) along with other inputs to generate a target sequence. This means that the model is optimized for generating outputs. I used decoder model to implenment causal language modeling in `GenerativeModels` directory. 
 
-
+For sequence generatin tasks such as translation, summerization, and question answering we use the model consisting both encoder and decoder. 
 
 
 
