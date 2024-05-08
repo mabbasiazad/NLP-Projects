@@ -27,7 +27,7 @@ Encoder (left): The encoder receives an input and builds a representation of it 
 
 Decoder (right): The decoder uses the encoder’s representation (features) along with other inputs to generate a target sequence. This means that the model is optimized for generating outputs. I used decoder model to implenment causal language modeling in `GenerativeModels` directory. 
 
-For sequence generatin tasks such as translation, summerization, and question answering we use the model consisting both encoder and decoder. 
+For sequence generatin tasks such as translation, summerization, and question answering we use the model consisting both encoder and decoder.I'll do the question answering tasks later to show this type of models as well.  
 
 
 
